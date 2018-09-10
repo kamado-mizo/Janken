@@ -1,0 +1,137 @@
+*saisho
+	title "しまくまジャンケン"
+	screen 0,400,500 : color 0,121,194 : 	boxf 0,0,ginfo_winx,ginfo_winy
+	picload "title.png",1
+	pos 70,150 : color 0,0,0 : font "",30
+	mes "じゃんけんするよ～！"
+
+//メイン画面
+*main
+
+	pos 150,200 : objsize 100,20
+	button "じゃーんけーん",*machi
+	
+	pos 125,250
+	picload "machi.png",1
+	stop
+
+//待機画面
+*machi
+	cls : color 0,121,194 : boxf 0,0,ginfo_winx,ginfo_winy : picload "title.png",1 : randomize
+	pos 50,250 :	font "",50 : color 0,0,0
+	mes "じゃーんけーん"
+	wait 200
+	goto *janken
+	
+//あいこ画面	
+*aikode
+	cls : color 0,121,194 : boxf 0,0,ginfo_winx,ginfo_winy : picload "title.png",1 : randomize
+	pos 50,250 :	font "",50 : color 0,0,0
+	mes "あーいこーで"
+	wait 200
+	goto *janken
+	stop
+	
+*janken // グーが0、チョキが1、パーが2
+	cls 
+	color 0,121,194 : 	boxf 0,0,ginfo_winx,ginfo_winy:picload "title.png",1
+	objsize 50 : pos 75,200
+	button "グー",*gu1
+	pos 175,200
+	button "チョキ",*cho1
+	pos 275,200
+	button "パー",*pa1
+	//０～２までの数をランダムに１つ生成、te変数に代入する
+	te = rnd(3)
+	stop
+	
+*gu1 // グーが0、チョキが1、パーが2
+	cls : color 0,121,194 : boxf 0,0,ginfo_winx,ginfo_winy : picload "title.png",1
+	objsize 50 : pos 75,200
+	button "グー",*gu1
+	if (te = 1){
+		pos 125,250
+		picload "cho.png",1
+		goto *kachi
+	}
+	else : if (te = 2){
+		pos 125,250
+		picload "gu.png",1
+		goto *aiko
+	}
+	else{
+		pos 125,250
+		picload "pa.png",1
+		goto *make
+	}
+	stop
+	
+*cho1 // グーが0、チョキが1、パーが2
+	cls : color 0,121,194 : boxf 0,0,ginfo_winx,ginfo_winy : picload "title.png",1
+	objsize 50 : pos 175,200
+	button "チョキ",*cho1
+	if (te = 1){
+		pos 125,250
+		picload "cho.png",1
+		goto *aiko
+	}
+	else : if (te = 2){
+		pos 125,250
+		picload "gu.png",1
+		goto *make
+	}
+	else{
+		pos 125,250
+		picload "pa.png",1
+		goto *kachi
+	}
+	stop
+	
+*pa1 // グーが0、チョキが1、パーが2
+	cls : color 0,121,194 : boxf 0,0,ginfo_winx,ginfo_winy : picload "title.png",1
+	objsize 50 : pos 275,200
+	button "パー",*pa1
+	if (te = 1) {
+		pos 125,250
+		picload "cho.png",1
+		goto *make
+	}
+	else : if (te = 2) {
+		pos 125,250
+		picload "gu.png",1
+		goto *kachi
+	}
+	else{
+		pos 125,250
+		picload "pa.png",1
+		goto *aiko
+	}
+	stop
+
+//しまくまが勝ってユーザが負けた場合
+*kachi
+		wait 130
+		color 0,121,194 : boxf 125,250,275,400 
+		pos 125,250
+		picload "kachi.png",1
+		objsize 70 : pos 175,415
+		button "わんもあ？",*machi
+		stop
+
+//しまくまが負けてユーザが勝った場合
+*make
+		wait 130
+		color 0,121,194 : boxf 125,250,275,400 
+		pos 125,250
+		picload "make.png",1
+		objsize 70 : pos 175,415
+		button "わんもあ？",*machi
+		stop
+	
+*aiko
+		wait 130
+		color 0,121,194 : boxf 125,250,275,400 
+		pos 125,250
+		picload "aiko.png",1
+		wait 100
+		goto *aikode
